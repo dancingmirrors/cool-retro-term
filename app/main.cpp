@@ -16,6 +16,7 @@
 
 #include <fileio.h>
 #include <monospacefontmanager.h>
+#include <wallpaperdetector.h>
 
 QString getNamedArgument(QStringList args, QString name, QString defaultName)
 {
@@ -75,6 +76,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     FileIO fileIO;
     MonospaceFontManager monospaceFontManager;
+    WallpaperDetector wallpaperDetector;
 
 #if !defined(Q_OS_MAC)
     app.setWindowIcon(QIcon::fromTheme("cool-retro-term", QIcon(":../icons/32x32/cool-retro-term.png")));
@@ -102,6 +104,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("workdir", getNamedArgument(args, "--workdir", "$HOME"));
     engine.rootContext()->setContextProperty("fileIO", &fileIO);
     engine.rootContext()->setContextProperty("monospaceSystemFonts", monospaceFontManager.retrieveMonospaceFonts());
+    engine.rootContext()->setContextProperty("wallpaperDetector", &wallpaperDetector);
 
     engine.rootContext()->setContextProperty("devicePixelRatio", app.devicePixelRatio());
 

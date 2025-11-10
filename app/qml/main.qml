@@ -140,6 +140,27 @@ ApplicationWindow {
     ApplicationSettings {
         id: appSettings
     }
+    
+    // Fake transparency background
+    Image {
+        id: fakeTransparencyBackground
+        anchors.fill: parent
+        visible: appSettings.useFakeTransparency && appSettings.wallpaperPath
+        source: appSettings.useFakeTransparency && appSettings.wallpaperPath ? "file://" + appSettings.wallpaperPath : ""
+        fillMode: Image.PreserveAspectCrop
+        opacity: appSettings.fakeTransparencyOpacity
+        z: -1
+        
+        // Position the image to simulate transparency
+        x: -terminalWindow.x
+        y: -terminalWindow.y
+        width: terminalWindow.screen ? terminalWindow.screen.width : terminalWindow.width
+        height: terminalWindow.screen ? terminalWindow.screen.height : terminalWindow.height
+        
+        // Prevent the image from being affected by mouse events
+        enabled: false
+    }
+    
     TerminalContainer {
         id: terminalContainer
         width: parent.width

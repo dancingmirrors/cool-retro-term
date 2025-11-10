@@ -5,11 +5,13 @@ DESTDIR = $$OUT_PWD/../
 
 HEADERS += \
     fileio.h \
-    monospacefontmanager.h
+    monospacefontmanager.h \
+    wallpaperdetector.h
 
 SOURCES = main.cpp \
     fileio.cpp \
-    monospacefontmanager.cpp
+    monospacefontmanager.cpp \
+    wallpaperdetector.cpp
 
 macx:ICON = icons/crt.icns
 
