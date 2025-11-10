@@ -22,14 +22,16 @@ RESOURCES += qml/resources.qrc
 #########################################
 
 # PREFIX support
+# Read PREFIX from environment, but don't set a default here
+# The default is provided by .prefix_default.mk included in the Makefile
 isEmpty(PREFIX):PREFIX = $$(PREFIX)
-isEmpty(PREFIX):PREFIX = /usr
 
 # Use $(PREFIX) in Makefile to allow override via make PREFIX=...
 LITERAL_DOLLAR = $$escape_expand(\\$)
 
-# Generate a .mk file with PREFIX default and patch Makefile after qmake generates it
-system(echo \"PREFIX ?= $$PREFIX\" > .prefix_default.mk && echo \".prefix_default.mk created\")
+# Generate a .mk file with PREFIX default
+# Use /usr as the default value in the .mk file
+system(echo \"PREFIX ?= /usr\" > .prefix_default.mk && echo \".prefix_default.mk created\")
 QMAKE_DISTCLEAN += .prefix_default.mk
 
 target.path = /$${LITERAL_DOLLAR}(PREFIX)/bin
