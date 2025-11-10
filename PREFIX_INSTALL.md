@@ -4,22 +4,12 @@ This project now supports customizable installation paths via the PREFIX variabl
 
 ## Quick Start
 
-There are two ways to specify a custom PREFIX:
-
-### Option 1: Set PREFIX during qmake (Recommended)
-
-```bash
-PREFIX=/usr/local qmake
-make
-sudo make install
-```
-
-### Option 2: Set PREFIX during make install
+The recommended way to specify a custom PREFIX:
 
 ```bash
 qmake
 make
-bash fix-makefiles.sh  # Run this script once after qmake
+bash fix-makefiles.sh  # Patch Makefiles to support PREFIX
 sudo make PREFIX=/usr/local install
 ```
 
@@ -29,27 +19,37 @@ sudo make PREFIX=/usr/local install
   Files install to `/usr/bin`, `/usr/share/applications`, etc.
 
 - **Custom PREFIX**: Set to any path like `/usr/local`, `/opt/cool-retro-term`, etc.
-  
-- **Option 1 (Environment Variable)**: Cleaner, sets PREFIX at configuration time
-  
-- **Option 2 (Make Variable)**: More flexible, allows changing PREFIX without re-running qmake,  
-  but requires running `fix-makefiles.sh` once after `qmake`
+
+## Why fix-makefiles.sh?
+
+qmake generates Makefiles at configuration time with hardcoded paths. The `fix-makefiles.sh` script patches the generated Makefiles to include `.prefix_default.mk` files that define a default PREFIX value while allowing it to be overridden at make-time.
+
+**Note**: You can also set PREFIX when running qmake (`PREFIX=/usr/local qmake`), but this only affects some files. For complete PREFIX support across all installed files, use the fix-makefiles.sh script method.
 
 ## Examples
 
 Install to `/usr/local`:
 ```bash
-PREFIX=/usr/local qmake && make && sudo make install
+qmake
+make
+bash fix-makefiles.sh
+sudo make PREFIX=/usr/local install
 ```
 
 Install to `/opt`:
 ```bash
-qmake && make && bash fix-makefiles.sh && sudo make PREFIX=/opt install
+qmake
+make
+bash fix-makefiles.sh
+sudo make PREFIX=/opt install
 ```
 
 Install to a staging directory (for packaging):
 ```bash
-PREFIX=/usr qmake && make && make install INSTALL_ROOT=/tmp/staging
+qmake
+make  
+bash fix-makefiles.sh
+make install INSTALL_ROOT=/tmp/staging PREFIX=/usr
 ```
 
 ## What Gets Installed
@@ -58,3 +58,16 @@ PREFIX=/usr qmake && make && make install INSTALL_ROOT=/tmp/staging
 - Desktop file: `${PREFIX}/share/applications/cool-retro-term.desktop`
 - Icons: `${PREFIX}/share/icons/hicolor/{32x32,64x64,128x128,256x256}/apps/cool-retro-term.png`
 - QML plugin: Uses Qt's standard `$$[QT_INSTALL_QML]` path (not affected by PREFIX)
+
+## For Package Maintainers
+
+If you're packaging cool-retro-term for a distribution:
+
+```bash
+qmake
+make
+bash fix-makefiles.sh
+make install INSTALL_ROOT="${pkgdir}" PREFIX=/usr
+```
+
+This will install to `${pkgdir}/usr/bin/cool-retro-term` etc., which is the standard for most package systems.
