@@ -62,6 +62,9 @@ QtObject {
 
     // PROFILE SETTINGS ///////////////////////////////////////////////////////
     property real windowOpacity: 1.0
+    property bool useFakeTransparency: false
+    property string wallpaperPath: ""
+    property real fakeTransparencyOpacity: 0.5
     property real ambientLight: 0.2
     property real contrast: 0.80
     property real brightness: 0.5
@@ -267,6 +270,9 @@ QtObject {
             "contrast": contrast,
             "ambientLight": ambientLight,
             "windowOpacity": windowOpacity,
+            "useFakeTransparency": useFakeTransparency,
+            "wallpaperPath": wallpaperPath,
+            "fakeTransparencyOpacity": fakeTransparencyOpacity,
             "fontName": fontNames[rasterization],
             "fontWidth": fontWidth,
             "margin": _margin,
@@ -372,6 +378,13 @@ QtObject {
         brightness = settings.brightness !== undefined ? settings.brightness : brightness
         windowOpacity = settings.windowOpacity
                 !== undefined ? settings.windowOpacity : windowOpacity
+        
+        useFakeTransparency = settings.useFakeTransparency
+                !== undefined ? settings.useFakeTransparency : useFakeTransparency
+        wallpaperPath = settings.wallpaperPath
+                !== undefined ? settings.wallpaperPath : wallpaperPath
+        fakeTransparencyOpacity = settings.fakeTransparencyOpacity
+                !== undefined ? settings.fakeTransparencyOpacity : fakeTransparencyOpacity
 
         fontNames[rasterization] = settings.fontName
                 !== undefined ? settings.fontName : fontNames[rasterization]

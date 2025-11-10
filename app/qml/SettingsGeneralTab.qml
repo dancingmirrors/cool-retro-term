@@ -226,6 +226,71 @@ ColumnLayout {
         }
     }
 
+    GroupBox {
+        title: qsTr("Fake Transparency")
+        Layout.fillWidth: true
+        visible: !appSettings.isMacOS
+        GridLayout {
+            anchors.fill: parent
+            columns: 2
+            CheckBox {
+                text: qsTr("Enable Fake Transparency")
+                checked: appSettings.useFakeTransparency
+                onCheckedChanged: appSettings.useFakeTransparency = checked
+                Layout.columnSpan: 2
+            }
+            Label {
+                text: qsTr("Background Opacity")
+                enabled: appSettings.useFakeTransparency
+            }
+            SimpleSlider {
+                enabled: appSettings.useFakeTransparency
+                onValueChanged: appSettings.fakeTransparencyOpacity = value
+                value: appSettings.fakeTransparencyOpacity
+            }
+            Label {
+                text: qsTr("Wallpaper")
+                enabled: appSettings.useFakeTransparency
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                Button {
+                    text: qsTr("Auto-detect")
+                    enabled: appSettings.useFakeTransparency
+                    onClicked: {
+                        var detected = wallpaperDetector.detectWallpaper()
+                        if (detected) {
+                            appSettings.wallpaperPath = detected
+                        } else {
+                            wallpaperErrorDialog.text = qsTr("Could not detect wallpaper. Please select manually.")
+                            wallpaperErrorDialog.open()
+                        }
+                    }
+                }
+                Button {
+                    text: qsTr("Select File...")
+                    enabled: appSettings.useFakeTransparency
+                    onClicked: {
+                        wallpaperFileDialog.callBack = function(url) {
+                            appSettings.wallpaperPath = url.toString().replace("file://", "")
+                        }
+                        wallpaperFileDialog.open()
+                    }
+                }
+            }
+            Label {
+                text: qsTr("Current:")
+                enabled: appSettings.useFakeTransparency
+            }
+            Label {
+                text: appSettings.wallpaperPath || qsTr("(none)")
+                elide: Text.ElideMiddle
+                Layout.fillWidth: true
+                enabled: appSettings.useFakeTransparency
+            }
+        }
+    }
+
     // DIALOGS ////////////////////////////////////////////////////////////////
     InsertNameDialog {
         id: insertname
@@ -239,6 +304,13 @@ ColumnLayout {
         title: qsTr("File Error")
         onAccepted: {
             messageDialog.close()
+        }
+    }
+    MessageDialog {
+        id: wallpaperErrorDialog
+        title: qsTr("Wallpaper Detection")
+        onAccepted: {
+            wallpaperErrorDialog.close()
         }
     }
     Loader {
@@ -263,6 +335,23 @@ ColumnLayout {
         function reload() {
             active = false
             active = true
+        }
+    }
+    Loader {
+        property var callBack
+        id: wallpaperFileDialog
+
+        sourceComponent: FileDialog {
+            nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp *.gif)"]
+            selectMultiple: false
+            selectFolder: false
+            selectExisting: true
+            onAccepted: callBack(fileUrl)
+        }
+
+        function open() {
+            active = true
+            item.open()
         }
     }
 }
