@@ -27,11 +27,13 @@ sudo make PREFIX=/usr/local install
 qmake generates Makefiles at configuration time with `$(PREFIX)` placeholders in install paths. However, without a default value, PREFIX becomes empty if not specified. The `fix-makefiles.sh` script patches the generated Makefiles to include `.prefix_default.mk` files that define `PREFIX ?= /usr` as the default, while still allowing it to be overridden at make-time with `make PREFIX=/custom/path install`.
 
 **Critical**: The script must be run **after** `make` because:
-1. `qmake` generates the root Makefile
+1. `qmake` generates the root Makefile and creates `.prefix_default.mk` files
 2. `make` generates subdirectory Makefiles (like `app/Makefile`)
 3. `fix-makefiles.sh` patches all Makefiles that exist
 
 If you run the script before `make`, only the root Makefile will be patched, and the binary won't install to the correct PREFIX location.
+
+**Note about make clean**: After running `make clean` or `make distclean`, the `.prefix_default.mk` files are removed. You must run `qmake` again to regenerate them.
 
 ## Examples
 

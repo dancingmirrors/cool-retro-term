@@ -14,8 +14,9 @@ isEmpty(PREFIX) {
 # Use $(PREFIX) in Makefile to allow override via make PREFIX=...
 LITERAL_DOLLAR = $$escape_expand(\\$)
 
-# Generate a .mk file with PREFIX default in the build directory
+# Generate .mk files with PREFIX default in both root and app directories
 system(echo \"PREFIX ?= $$PREFIX\" > .prefix_default.mk)
+system(mkdir -p app && echo \"PREFIX ?= $$PREFIX\" > app/.prefix_default.mk)
 QMAKE_DISTCLEAN += .prefix_default.mk
 
 desktop.files = cool-retro-term.desktop
