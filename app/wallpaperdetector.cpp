@@ -1,6 +1,6 @@
 /*******************************************************************************
 * Copyright (c) 2013-2021 "Filippo Scognamiglio"
-* https://github.com/Swordfish90/cool-retro-term
+* https:\/\/github.com/Swordfish90/cool-retro-term
 *
 * This file is part of cool-retro-term.
 *
@@ -15,7 +15,7 @@
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+* along with this program.  If not, see <http:\/\/www.gnu.org/licenses/>.
 *******************************************************************************/
 
 // WallpaperDetector - Detects the desktop wallpaper path from various desktop environments
