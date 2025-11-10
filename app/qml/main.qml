@@ -144,14 +144,14 @@ ApplicationWindow {
     // Fake transparency background
     Image {
         id: fakeTransparencyBackground
-        anchors.fill: parent
         visible: appSettings.useFakeTransparency && appSettings.wallpaperPath
         source: appSettings.useFakeTransparency && appSettings.wallpaperPath ? "file://" + appSettings.wallpaperPath : ""
         fillMode: Image.PreserveAspectCrop
         opacity: appSettings.fakeTransparencyOpacity
         z: -1
         
-        // Position the image to simulate transparency
+        // Position and size the image to simulate transparency
+        // The image represents the full desktop, positioned relative to window position
         x: -terminalWindow.x
         y: -terminalWindow.y
         width: terminalWindow.screen ? terminalWindow.screen.width : terminalWindow.width
