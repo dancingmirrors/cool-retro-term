@@ -57,10 +57,19 @@ QString WallpaperDetector::detectWallpaper()
 QString WallpaperDetector::detectGnomeWallpaper()
 {
     QProcess process;
+    
+    // Try picture-uri first (light mode wallpaper)
     process.start("gsettings", QStringList() << "get" << "org.gnome.desktop.background" << "picture-uri");
     process.waitForFinished();
     
     QString output = process.readAllStandardOutput().trimmed();
+    
+    // If empty or failed, try picture-uri-dark (dark mode wallpaper, GNOME 42+)
+    if (output.isEmpty() || output == "''") {
+        process.start("gsettings", QStringList() << "get" << "org.gnome.desktop.background" << "picture-uri-dark");
+        process.waitForFinished();
+        output = process.readAllStandardOutput().trimmed();
+    }
     
     // Remove quotes and 'file://' prefix
     output.replace("'", "");

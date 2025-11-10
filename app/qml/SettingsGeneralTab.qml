@@ -22,7 +22,13 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.1
 
-ColumnLayout {
+ScrollView {
+    id: scrollView
+    clip: true
+    
+    ColumnLayout {
+        width: scrollView.availableWidth
+        
     GroupBox {
         Layout.fillWidth: true
         title: qsTr("Profile")
@@ -217,11 +223,13 @@ ColumnLayout {
             Label {
                 text: qsTr("Opacity")
                 visible: !appSettings.isMacOS
+                enabled: !appSettings.useFakeTransparency
             }
             SimpleSlider {
                 onValueChanged: appSettings.windowOpacity = value
                 value: appSettings.windowOpacity
                 visible: !appSettings.isMacOS
+                enabled: !appSettings.useFakeTransparency
             }
         }
     }
@@ -353,5 +361,6 @@ ColumnLayout {
             active = true
             item.open()
         }
+    }
     }
 }
