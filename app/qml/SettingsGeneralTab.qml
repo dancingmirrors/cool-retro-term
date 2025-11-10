@@ -22,7 +22,13 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.1
 
-ColumnLayout {
+ScrollView {
+    id: scrollView
+    clip: true
+    
+    ColumnLayout {
+        width: scrollView.availableWidth
+        
     GroupBox {
         Layout.fillWidth: true
         title: qsTr("Profile")
@@ -217,11 +223,89 @@ ColumnLayout {
             Label {
                 text: qsTr("Opacity")
                 visible: !appSettings.isMacOS
+                enabled: !appSettings.useFakeTransparency
             }
             SimpleSlider {
                 onValueChanged: appSettings.windowOpacity = value
                 value: appSettings.windowOpacity
                 visible: !appSettings.isMacOS
+                enabled: !appSettings.useFakeTransparency
+            }
+        }
+    }
+
+    GroupBox {
+        title: qsTr("Fake Transparency")
+        Layout.fillWidth: true
+        visible: !appSettings.isMacOS
+        GridLayout {
+            anchors.fill: parent
+            columns: 2
+            CheckBox {
+                text: qsTr("Enable Fake Transparency")
+                checked: appSettings.useFakeTransparency
+                onCheckedChanged: appSettings.useFakeTransparency = checked
+                Layout.columnSpan: 2
+            }
+            Label {
+                text: qsTr("Background Opacity")
+                enabled: appSettings.useFakeTransparency
+            }
+            SimpleSlider {
+                enabled: appSettings.useFakeTransparency
+                onValueChanged: appSettings.fakeTransparencyOpacity = value
+                value: appSettings.fakeTransparencyOpacity
+            }
+            Label {
+                text: qsTr("Scaling Mode")
+                enabled: appSettings.useFakeTransparency
+            }
+            ComboBox {
+                enabled: appSettings.useFakeTransparency
+                model: [qsTr("Scaled"), qsTr("Zoom"), qsTr("Centered"), qsTr("Stretched")]
+                currentIndex: appSettings.wallpaperScaling
+                onCurrentIndexChanged: appSettings.wallpaperScaling = currentIndex
+                Layout.fillWidth: true
+            }
+            Label {
+                text: qsTr("Wallpaper")
+                enabled: appSettings.useFakeTransparency
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                Button {
+                    text: qsTr("Auto-detect")
+                    enabled: appSettings.useFakeTransparency
+                    onClicked: {
+                        var detected = wallpaperDetector.detectWallpaper()
+                        if (detected) {
+                            appSettings.wallpaperPath = detected
+                        } else {
+                            wallpaperErrorDialog.text = qsTr("Could not detect wallpaper. Please select manually.")
+                            wallpaperErrorDialog.open()
+                        }
+                    }
+                }
+                Button {
+                    text: qsTr("Select File...")
+                    enabled: appSettings.useFakeTransparency
+                    onClicked: {
+                        wallpaperFileDialog.callBack = function(url) {
+                            appSettings.wallpaperPath = url.toString().replace("file://", "")
+                        }
+                        wallpaperFileDialog.open()
+                    }
+                }
+            }
+            Label {
+                text: qsTr("Current:")
+                enabled: appSettings.useFakeTransparency
+            }
+            Label {
+                text: appSettings.wallpaperPath || qsTr("(none)")
+                elide: Text.ElideMiddle
+                Layout.fillWidth: true
+                enabled: appSettings.useFakeTransparency
             }
         }
     }
@@ -239,6 +323,13 @@ ColumnLayout {
         title: qsTr("File Error")
         onAccepted: {
             messageDialog.close()
+        }
+    }
+    MessageDialog {
+        id: wallpaperErrorDialog
+        title: qsTr("Wallpaper Detection")
+        onAccepted: {
+            wallpaperErrorDialog.close()
         }
     }
     Loader {
@@ -264,5 +355,23 @@ ColumnLayout {
             active = false
             active = true
         }
+    }
+    Loader {
+        property var callBack
+        id: wallpaperFileDialog
+
+        sourceComponent: FileDialog {
+            nameFilters: ["Image files (*.png *.jpg *.jpeg *.bmp *.gif)"]
+            selectMultiple: false
+            selectFolder: false
+            selectExisting: true
+            onAccepted: callBack(fileUrl)
+        }
+
+        function open() {
+            active = true
+            item.open()
+        }
+    }
     }
 }

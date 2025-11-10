@@ -62,6 +62,14 @@ QtObject {
 
     // PROFILE SETTINGS ///////////////////////////////////////////////////////
     property real windowOpacity: 1.0
+    
+    // Fake transparency: Shows desktop wallpaper as background instead of real transparency
+    // This provides the appearance of transparency while maintaining better readability
+    property bool useFakeTransparency: false
+    property string wallpaperPath: ""
+    property real fakeTransparencyOpacity: 0.5
+    property int wallpaperScaling: 0  // 0=Scaled (fit), 1=Zoom (fill), 2=Centered, 3=Stretched
+    
     property real ambientLight: 0.2
     property real contrast: 0.80
     property real brightness: 0.5
@@ -267,6 +275,10 @@ QtObject {
             "contrast": contrast,
             "ambientLight": ambientLight,
             "windowOpacity": windowOpacity,
+            "useFakeTransparency": useFakeTransparency,
+            "wallpaperPath": wallpaperPath,
+            "fakeTransparencyOpacity": fakeTransparencyOpacity,
+            "wallpaperScaling": wallpaperScaling,
             "fontName": fontNames[rasterization],
             "fontWidth": fontWidth,
             "margin": _margin,
@@ -372,6 +384,15 @@ QtObject {
         brightness = settings.brightness !== undefined ? settings.brightness : brightness
         windowOpacity = settings.windowOpacity
                 !== undefined ? settings.windowOpacity : windowOpacity
+        
+        useFakeTransparency = settings.useFakeTransparency
+                !== undefined ? settings.useFakeTransparency : useFakeTransparency
+        wallpaperPath = settings.wallpaperPath
+                !== undefined ? settings.wallpaperPath : wallpaperPath
+        fakeTransparencyOpacity = settings.fakeTransparencyOpacity
+                !== undefined ? settings.fakeTransparencyOpacity : fakeTransparencyOpacity
+        wallpaperScaling = settings.wallpaperScaling
+                !== undefined ? settings.wallpaperScaling : wallpaperScaling
 
         fontNames[rasterization] = settings.fontName
                 !== undefined ? settings.fontName : fontNames[rasterization]
