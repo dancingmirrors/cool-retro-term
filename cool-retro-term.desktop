@@ -6,6 +6,7 @@ Icon=cool-retro-term
 Name=Cool Retro Term
 Categories=System;TerminalEmulator;
 StartupNotify=true
+StartupWMClass=cool-retro-term
 Terminal=false
 Type=Application
 Keywords=shell;prompt;command;commandline;
