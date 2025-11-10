@@ -65,9 +65,9 @@ QtObject {
     
     // Fake transparency: Shows desktop wallpaper as background instead of real transparency
     // This provides the appearance of transparency while maintaining better readability
-    property bool useFakeTransparency: false           // Enable/disable fake transparency
-    property string wallpaperPath: ""                   // Path to wallpaper image file
-    property real fakeTransparencyOpacity: 0.5         // Opacity of fake background (0.0 = invisible, 1.0 = fully visible)
+    property bool useFakeTransparency: false
+    property string wallpaperPath: ""
+    property real fakeTransparencyOpacity: 0.5
     
     property real ambientLight: 0.2
     property real contrast: 0.80
