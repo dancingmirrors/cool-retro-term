@@ -5,7 +5,12 @@ CONFIG += ordered
 SUBDIRS += qmltermwidget
 SUBDIRS += app
 
+# PREFIX support
+isEmpty(PREFIX) {
+    PREFIX = /usr
+}
+
 desktop.files += cool-retro-term.desktop
-desktop.path += /usr/share/applications
+desktop.path += $$PREFIX/share/applications
 
 INSTALLS += desktop
