@@ -9,9 +9,11 @@ The recommended way to specify a custom PREFIX:
 ```bash
 qmake
 make
-bash fix-makefiles.sh  # Patch Makefiles to support PREFIX
+bash fix-makefiles.sh  # Patch Makefiles to support PREFIX (run AFTER make)
 sudo make PREFIX=/usr/local install
 ```
+
+**Important**: Run `fix-makefiles.sh` **after** `make`, not before, because subdirectory Makefiles are only generated during the build process.
 
 ## Details
 
@@ -22,9 +24,14 @@ sudo make PREFIX=/usr/local install
 
 ## Why fix-makefiles.sh?
 
-qmake generates Makefiles at configuration time with hardcoded paths. The `fix-makefiles.sh` script patches the generated Makefiles to include `.prefix_default.mk` files that define a default PREFIX value while allowing it to be overridden at make-time.
+qmake generates Makefiles at configuration time with `$(PREFIX)` placeholders in install paths. However, without a default value, PREFIX becomes empty if not specified. The `fix-makefiles.sh` script patches the generated Makefiles to include `.prefix_default.mk` files that define `PREFIX ?= /usr` as the default, while still allowing it to be overridden at make-time with `make PREFIX=/custom/path install`.
 
-**Note**: You can also set PREFIX when running qmake (`PREFIX=/usr/local qmake`), but this only affects some files. For complete PREFIX support across all installed files, use the fix-makefiles.sh script method.
+**Critical**: The script must be run **after** `make` because:
+1. `qmake` generates the root Makefile
+2. `make` generates subdirectory Makefiles (like `app/Makefile`)
+3. `fix-makefiles.sh` patches all Makefiles that exist
+
+If you run the script before `make`, only the root Makefile will be patched, and the binary won't install to the correct PREFIX location.
 
 ## Examples
 
