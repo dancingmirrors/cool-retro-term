@@ -68,6 +68,7 @@ QtObject {
     property bool useFakeTransparency: false
     property string wallpaperPath: ""
     property real fakeTransparencyOpacity: 0.5
+    property int wallpaperScaling: 0  // 0=Scaled (fit), 1=Zoom (fill), 2=Centered, 3=Stretched
     
     property real ambientLight: 0.2
     property real contrast: 0.80
@@ -277,6 +278,7 @@ QtObject {
             "useFakeTransparency": useFakeTransparency,
             "wallpaperPath": wallpaperPath,
             "fakeTransparencyOpacity": fakeTransparencyOpacity,
+            "wallpaperScaling": wallpaperScaling,
             "fontName": fontNames[rasterization],
             "fontWidth": fontWidth,
             "margin": _margin,
@@ -389,6 +391,8 @@ QtObject {
                 !== undefined ? settings.wallpaperPath : wallpaperPath
         fakeTransparencyOpacity = settings.fakeTransparencyOpacity
                 !== undefined ? settings.fakeTransparencyOpacity : fakeTransparencyOpacity
+        wallpaperScaling = settings.wallpaperScaling
+                !== undefined ? settings.wallpaperScaling : wallpaperScaling
 
         fontNames[rasterization] = settings.fontName
                 !== undefined ? settings.fontName : fontNames[rasterization]

@@ -257,6 +257,17 @@ ScrollView {
                 value: appSettings.fakeTransparencyOpacity
             }
             Label {
+                text: qsTr("Scaling Mode")
+                enabled: appSettings.useFakeTransparency
+            }
+            ComboBox {
+                enabled: appSettings.useFakeTransparency
+                model: [qsTr("Scaled"), qsTr("Zoom"), qsTr("Centered"), qsTr("Stretched")]
+                currentIndex: appSettings.wallpaperScaling
+                onCurrentIndexChanged: appSettings.wallpaperScaling = currentIndex
+                Layout.fillWidth: true
+            }
+            Label {
                 text: qsTr("Wallpaper")
                 enabled: appSettings.useFakeTransparency
             }
