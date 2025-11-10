@@ -18,6 +18,9 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *******************************************************************************/
 
+// WallpaperDetector - Detects the desktop wallpaper path from various desktop environments
+// This is used for the fake transparency feature to show the desktop background behind the terminal
+
 #include "wallpaperdetector.h"
 #include <QProcess>
 #include <QDebug>
