@@ -145,7 +145,6 @@ public:
         /** Show the scroll bar on the right side of the display. */
         ScrollBarRight=2 
     };
-    /** 
 
     /** Sets the background image of the terminal display. */
     void setBackgroundImage(const QString& backgroundImage);
