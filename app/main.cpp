@@ -72,6 +72,12 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_MacDontSwapCtrlAndMeta, true);
+    
+    // Set application name for proper WM_CLASS and desktop integration
+    app.setApplicationName("cool-retro-term");
+    
+    // Set desktop file name for GNOME/KDE desktop integration
+    app.setDesktopFileName("cool-retro-term.desktop");
 
     QQmlApplicationEngine engine;
     FileIO fileIO;
