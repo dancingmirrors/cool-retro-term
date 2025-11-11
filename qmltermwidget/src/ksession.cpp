@@ -175,6 +175,11 @@ void KSession::setShellProgram(const QString &progname)
     m_session->setProgram(progname);
 }
 
+QString KSession::getShellProgram() const
+{
+    return m_session->program();
+}
+
 void KSession::setInitialWorkingDirectory(const QString &dir)
 {
     if ( _initialWorkingDirectory != dir ) {
@@ -191,6 +196,11 @@ QString KSession::getInitialWorkingDirectory()
 void KSession::setArgs(const QStringList &args)
 {
     m_session->setArguments(args);
+}
+
+QStringList KSession::getShellProgramArgs() const
+{
+    return m_session->arguments();
 }
 
 void KSession::setTextCodec(QTextCodec *codec)
@@ -238,6 +248,9 @@ void KSession::sendText(QString text)
 
 void KSession::sendKey(int rep, int key, int mod) const
 {
+    Q_UNUSED(rep);
+    Q_UNUSED(key);
+    Q_UNUSED(mod);
     //TODO implement or remove this function.
 //    Qt::KeyboardModifier kbm = Qt::KeyboardModifier(mod);
 
