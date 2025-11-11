@@ -369,10 +369,10 @@ TerminalDisplay::TerminalDisplay(QQuickItem *parent)
 ,_filterChain(new TerminalImageFilterChain())
 ,_cursorShape(Emulation::KeyboardCursorShape::BlockCursor)
 ,mMotionAfterPasting(NoMoveScreenWindow)
-,m_font("Monospace", 12)
-,m_color_role(QPalette::Window)
 ,_leftBaseMargin(1)
 ,_topBaseMargin(1)
+,m_font("Monospace", 12)
+,m_color_role(QPalette::Window)
 ,m_full_cursor_height(false)
 ,_drawLineChars(true)
 {
@@ -2629,7 +2629,7 @@ void TerminalDisplay::wheelEvent( QWheelEvent* ev )
 
     int charLine;
     int charColumn;
-    getCharacterPosition( ev->pos() , charLine , charColumn );
+    getCharacterPosition( ev->position().toPoint() , charLine , charColumn );
 
     emit mouseSignal( ev->angleDelta().y() > 0 ? 4 : 5,
                       charColumn + 1,
@@ -3535,7 +3535,8 @@ void TerminalDisplay::simulateKeySequence(const QKeySequence &keySequence)
 }
 
 void TerminalDisplay::simulateWheel(int x, int y, int buttons, int modifiers, QPointF angleDelta){
-    QWheelEvent event(QPointF(x,y), angleDelta.y(), (Qt::MouseButton) buttons, (Qt::KeyboardModifier) modifiers);
+    QWheelEvent event(QPointF(x,y), QPointF(x,y), QPoint(), QPoint(angleDelta.x(), angleDelta.y()), 
+                      (Qt::MouseButtons) buttons, (Qt::KeyboardModifiers) modifiers, Qt::NoScrollPhase, false);
     wheelEvent(&event);
 }
 
