@@ -180,8 +180,7 @@ ColorEntry ColorScheme::colorEntry(int index , uint randomSeed) const
 {
     Q_ASSERT( index >= 0 && index < TABLE_COLORS );
 
-    if ( randomSeed != 0 )
-        qsrand(randomSeed);
+    // Note: QRandomGenerator::global() is automatically seeded, no need for qsrand()
 
     ColorEntry entry = colorTable()[index];
 
