@@ -37,8 +37,8 @@ class KSession : public QObject
     Q_PROPERTY(QString  kbScheme  READ  getKeyBindings WRITE setKeyBindings NOTIFY changedKeyBindings)
     Q_PROPERTY(QString  initialWorkingDirectory READ getInitialWorkingDirectory WRITE setInitialWorkingDirectory NOTIFY initialWorkingDirectoryChanged)
     Q_PROPERTY(QString  title READ getTitle WRITE setTitle NOTIFY titleChanged)
-    Q_PROPERTY(QString  shellProgram WRITE setShellProgram)
-    Q_PROPERTY(QStringList  shellProgramArgs WRITE setArgs)
+    Q_PROPERTY(QString  shellProgram READ getShellProgram WRITE setShellProgram)
+    Q_PROPERTY(QStringList  shellProgramArgs READ getShellProgramArgs WRITE setArgs)
     Q_PROPERTY(QString  history READ getHistory)
     Q_PROPERTY(bool hasActiveProcess READ hasActiveProcess)
     Q_PROPERTY(QString foregroundProcessName READ foregroundProcessName)
@@ -144,9 +144,11 @@ public slots:
 
     //  Shell program, default is /bin/bash
     void setShellProgram(const QString & progname);
+    QString getShellProgram() const;
 
     // Shell program args, default is none
     void setArgs(const QStringList &args);
+    QStringList getShellProgramArgs() const;
 
     int getShellPID();
     void changeDir(const QString & dir);
