@@ -65,7 +65,10 @@ make install INSTALL_ROOT=/tmp/staging PREFIX=/usr
 
 - Binary: `${PREFIX}/bin/cool-retro-term`
 - Desktop file: `${PREFIX}/share/applications/cool-retro-term.desktop`
-- Icons: `${PREFIX}/share/icons/hicolor/{32x32,64x64,128x128,256x256}/apps/cool-retro-term.png`
+- Icons: 
+  - PNG: `${PREFIX}/share/icons/hicolor/{32x32,64x64,128x128,256x256}/apps/cool-retro-term.png`
+  - SVG scalable: `${PREFIX}/share/icons/hicolor/scalable/apps/cool-retro-term.svg`
+  - SVG symbolic: `${PREFIX}/share/icons/hicolor/symbolic/apps/cool-retro-term-symbolic.svg`
 - QML plugin: Uses Qt's standard `$$[QT_INSTALL_QML]` path (not affected by PREFIX)
 
 ## For Package Maintainers

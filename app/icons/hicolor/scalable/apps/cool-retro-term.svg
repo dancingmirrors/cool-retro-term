@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="screen-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d0d0d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="screen-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#00ff00;stop-opacity:0.3" />
+      <stop offset="70%" style="stop-color:#00ff00;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#00ff00;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Outer casing -->
+  <rect x="10" y="10" width="236" height="236" rx="20" ry="20" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="2"/>
+  
+  <!-- Inner bezel -->
+  <rect x="20" y="20" width="216" height="216" rx="15" ry="15" fill="#1a1a1a" stroke="#0a0a0a" stroke-width="1"/>
+  
+  <!-- Screen -->
+  <rect x="30" y="30" width="196" height="196" rx="8" ry="8" fill="url(#screen-gradient)"/>
+  
+  <!-- Screen glow effect -->
+  <rect x="30" y="30" width="196" height="196" rx="8" ry="8" fill="url(#screen-glow)"/>
+  
+  <!-- Terminal prompt text with glow -->
+  <g fill="#00ff00" font-family="monospace" font-size="20">
+    <text x="45" y="70" filter="url(#glow)">$</text>
+    <rect x="60" y="55" width="12" height="20" fill="#00ff00" opacity="0.8"/>
+  </g>
+  
+  <g fill="#00ff00" font-family="monospace" font-size="16" opacity="0.7">
+    <text x="45" y="100">cool-retro-term</text>
+    <text x="45" y="125">--version</text>
+  </g>
+  
+  <g fill="#00dd00" font-family="monospace" font-size="14" opacity="0.5">
+    <text x="45" y="145">v1.2.0</text>
+    <text x="45" y="165">$</text>
+    <rect x="60" y="150" width="10" height="18" fill="#00ff00" opacity="0.6"/>
+  </g>
+  
+  <!-- Scanlines effect -->
+  <rect x="30" y="30" width="196" height="196" rx="8" ry="8" fill="none" stroke="#00ff00" stroke-width="0.5" opacity="0.1"/>
+  
+  <!-- CRT curve reflection -->
+  <ellipse cx="128" cy="80" rx="80" ry="30" fill="#ffffff" opacity="0.05"/>
+  
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
