@@ -48,6 +48,10 @@ unix {
     icon128.path = /$${LITERAL_DOLLAR}(PREFIX)/share/icons/hicolor/128x128/apps
     icon256.files = icons/256x256/cool-retro-term.png
     icon256.path = /$${LITERAL_DOLLAR}(PREFIX)/share/icons/hicolor/256x256/apps
+    iconScalable.files = icons/hicolor/scalable/apps/cool-retro-term.svg
+    iconScalable.path = /$${LITERAL_DOLLAR}(PREFIX)/share/icons/hicolor/scalable/apps
+    iconSymbolic.files = icons/hicolor/symbolic/apps/cool-retro-term-symbolic.svg
+    iconSymbolic.path = /$${LITERAL_DOLLAR}(PREFIX)/share/icons/hicolor/symbolic/apps
 
-    INSTALLS += icon32 icon64 icon128 icon256
+    INSTALLS += icon32 icon64 icon128 icon256 iconScalable iconSymbolic
 }
