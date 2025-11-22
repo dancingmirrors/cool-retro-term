@@ -16,6 +16,7 @@
 
 #include <fileio.h>
 #include <monospacefontmanager.h>
+#include <wallpaperdetector.h>
 
 QString getNamedArgument(QStringList args, QString name, QString defaultName)
 {
@@ -49,15 +50,15 @@ int main(int argc, char *argv[])
 
     if (argc>1 && (!strcmp(argv[1],"-h") || !strcmp(argv[1],"--help"))) {
         QTextStream cout(stdout, QIODevice::WriteOnly);
-        cout << "Usage: " << argv[0] << " [--default-settings] [--workdir <dir>] [--program <prog>] [-p|--profile <prof>] [--fullscreen] [-h|--help]" << endl;
-        cout << "  --default-settings  Run cool-retro-term with the default settings" << endl;
-        cout << "  --workdir <dir>     Change working directory to 'dir'" << endl;
-        cout << "  -e <cmd>            Command to execute. This option will catch all following arguments, so use it as the last option." << endl;
-        cout << "  -T <title>          Set window title to 'title'." << endl;
-        cout << "  --fullscreen        Run cool-retro-term in fullscreen." << endl;
-        cout << "  -p|--profile <prof> Run cool-retro-term with the given profile." << endl;
-        cout << "  -h|--help           Print this help." << endl;
-        cout << "  --verbose           Print additional information such as profiles and settings." << endl;
+        cout << "Usage: " << argv[0] << " [--default-settings] [--workdir <dir>] [--program <prog>] [-p|--profile <prof>] [--fullscreen] [-h|--help]" << Qt::endl;
+        cout << "  --default-settings  Run cool-retro-term with the default settings" << Qt::endl;
+        cout << "  --workdir <dir>     Change working directory to 'dir'" << Qt::endl;
+        cout << "  -e <cmd>            Command to execute. This option will catch all following arguments, so use it as the last option." << Qt::endl;
+        cout << "  -T <title>          Set window title to 'title'." << Qt::endl;
+        cout << "  --fullscreen        Run cool-retro-term in fullscreen." << Qt::endl;
+        cout << "  -p|--profile <prof> Run cool-retro-term with the given profile." << Qt::endl;
+        cout << "  -h|--help           Print this help." << Qt::endl;
+        cout << "  --verbose           Print additional information such as profiles and settings." << Qt::endl;
         return 0;
     }
 
@@ -65,16 +66,23 @@ int main(int argc, char *argv[])
 
     if (argc>1 && (!strcmp(argv[1],"-v") || !strcmp(argv[1],"--version"))) {
         QTextStream cout(stdout, QIODevice::WriteOnly);
-        cout << "cool-retro-term " << appVersion << endl;
+        cout << "cool-retro-term " << appVersion << Qt::endl;
         return 0;
     }
 
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_MacDontSwapCtrlAndMeta, true);
+    
+    // Set application name for proper WM_CLASS and desktop integration
+    app.setApplicationName("cool-retro-term");
+    
+    // Set desktop file name for GNOME/KDE desktop integration
+    app.setDesktopFileName("cool-retro-term.desktop");
 
     QQmlApplicationEngine engine;
     FileIO fileIO;
     MonospaceFontManager monospaceFontManager;
+    WallpaperDetector wallpaperDetector;
 
 #if !defined(Q_OS_MAC)
     app.setWindowIcon(QIcon::fromTheme("cool-retro-term", QIcon(":../icons/32x32/cool-retro-term.png")));
@@ -102,6 +110,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("workdir", getNamedArgument(args, "--workdir", "$HOME"));
     engine.rootContext()->setContextProperty("fileIO", &fileIO);
     engine.rootContext()->setContextProperty("monospaceSystemFonts", monospaceFontManager.retrieveMonospaceFonts());
+    engine.rootContext()->setContextProperty("wallpaperDetector", &wallpaperDetector);
 
     engine.rootContext()->setContextProperty("devicePixelRatio", app.devicePixelRatio());
 

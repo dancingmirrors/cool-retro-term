@@ -140,6 +140,46 @@ ApplicationWindow {
     ApplicationSettings {
         id: appSettings
     }
+    
+    // Background for fake transparency (prevents black artifacts when wallpaper doesn't fill screen)
+    Rectangle {
+        id: fakeTransparencyBackdrop
+        visible: appSettings.useFakeTransparency
+        color: "#000000"
+        z: -2
+        x: -terminalWindow.x
+        y: -terminalWindow.y
+        width: terminalWindow.screen ? terminalWindow.screen.width : terminalWindow.width
+        height: terminalWindow.screen ? terminalWindow.screen.height : terminalWindow.height
+        enabled: false
+    }
+    
+    // Fake transparency background
+    Image {
+        id: fakeTransparencyBackground
+        visible: appSettings.useFakeTransparency && appSettings.wallpaperPath
+        source: appSettings.useFakeTransparency && appSettings.wallpaperPath ? "file://" + appSettings.wallpaperPath : ""
+        // 0=Scaled (fit), 1=Zoom (fill), 2=Centered, 3=Stretched
+        fillMode: appSettings.wallpaperScaling === 0 ? Image.PreserveAspectFit :
+                  appSettings.wallpaperScaling === 1 ? Image.PreserveAspectCrop :
+                  appSettings.wallpaperScaling === 2 ? Image.Pad :
+                  Image.Stretch
+        horizontalAlignment: Image.AlignHCenter
+        verticalAlignment: Image.AlignVCenter
+        opacity: appSettings.fakeTransparencyOpacity
+        z: -1
+        
+        // Position and size the image to simulate transparency
+        // The image represents the full desktop, positioned relative to window position
+        x: -terminalWindow.x
+        y: -terminalWindow.y
+        width: terminalWindow.screen ? terminalWindow.screen.width : terminalWindow.width
+        height: terminalWindow.screen ? terminalWindow.screen.height : terminalWindow.height
+        
+        // Prevent the image from being affected by mouse events
+        enabled: false
+    }
+    
     TerminalContainer {
         id: terminalContainer
         width: parent.width

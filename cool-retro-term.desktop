@@ -1,11 +1,13 @@
 [Desktop Entry]
-Comment=Use the command line the old way
-Exec=cool-retro-term
-GenericName=Terminal emulator
-Icon=cool-retro-term
-Name=Cool Retro Term
-Categories=System;TerminalEmulator;
-StartupNotify=true
-Terminal=false
 Type=Application
+Name=Cool Retro Term
+GenericName=Terminal emulator
+Comment=Use the command line the old way
+TryExec=cool-retro-term
+Exec=cool-retro-term
+Icon=cool-retro-term
+Categories=System;TerminalEmulator;
 Keywords=shell;prompt;command;commandline;
+StartupNotify=true
+StartupWMClass=cool-retro-term
+Terminal=false
