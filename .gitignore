@@ -1,51 +1,31 @@
-# C++ objects and libs
-
-*.slo
-*.lo
-*.o
+*-build-*
 *.a
-*.la
-*.lai
-*.so
+*.app
+*.autosave
 *.dll
 *.dylib
-
-# Qt-es
-
-/.qmake.cache
-/.qmake.stash
+*.excludes
+*.json
+*.la
+*.lai
+*.lo
+*.moc
+*.o
 *.pro.user
 *.pro.user.*
-*.moc
+*.qmlproject.user
+*.qmlproject.user.*
+*.slo
+*.so
+*.xcf
+.DS_Store
+.prefix_default.mk
+/.qmake.cache
+/.qmake.stash
+Makefile*
+cool-retro-term
+imports
 moc_*.cpp
 moc_*.h
 qrc_*.cpp
 ui_*.h
-Makefile*
-*-build-*
-.prefix_default.mk
-
-# QtCreator
-
-*.autosave
-
-# QtCtreator Qml
-*.qmlproject.user
-*.qmlproject.user.*
-
-# Others
-
-*.xcf
-
-# Ubuntu SDk
-*.excludes
-*.json
-
-# Excludes compiled files
-imports
-cool-retro-term
-
-# Mac OSX
-
-.DS_Store
-*.app
